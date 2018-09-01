@@ -6,7 +6,7 @@ function love.load()
     game = Game:new()    
     game:init()
         
-    love.audio.play(game.he_Music)
+    love.audio.play(game.resMan.he_Music)
 end
 
 function love.update(dt)

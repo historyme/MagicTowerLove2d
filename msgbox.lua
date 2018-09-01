@@ -4,13 +4,13 @@ function MsgBox:initialize(game)
     self.msg = ''
     self.show = false
     
-    self.boxPosX = game.tiled_width/2 + game.ScreenLeft
-    self.boxPosY = game.map_height*game.tiled_height - 5 * game.tiled_height
-    self.strPosX = self.boxPosX + game.tiled_width/4 
-    self.strPosY = self.boxPosY + game.tiled_height/4
+    self.boxPosX = game.resMan.tiled_width/2 + game.resMan.ScreenLeft
+    self.boxPosY = game.map_height*game.resMan.tiled_height - 5 * game.resMan.tiled_height
+    self.strPosX = self.boxPosX + game.resMan.tiled_width/4 
+    self.strPosY = self.boxPosY + game.resMan.tiled_height/4
     
-    self.boxSizeWidth  = game.tiled_width *(game.map_width    - 1)
-    self.boxSizeheight = game.tiled_height*(game.map_height/2 - 1)
+    self.boxSizeWidth  = game.resMan.tiled_width *(game.map_width    - 1)
+    self.boxSizeheight = game.resMan.tiled_height*(game.map_height/2 - 1)
     
     self.stringBatch = {}
     self.index = 1

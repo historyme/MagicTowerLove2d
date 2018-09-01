@@ -27,7 +27,7 @@ function FloorPoint:initialize(game, itemID, spriteType, spriteItem, monsterID, 
 end
 
 function FloorPoint:canMove(game, hero, dir)
-    if(self.spriteType.innerID == game.s_ground.innerID) then
+    if(self.spriteType.innerID == game.resMan.sprite_map['ground'].innerID) then
         if self.activeItem then
             return self.activeItem:active(game, hero)
         end

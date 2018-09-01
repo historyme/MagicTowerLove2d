@@ -5,7 +5,7 @@ function Npc:initialize(game, NpcID)
     self.NpcID = NpcID
 	self.state = 1
 	self.visit = 1
-    self.npcSprites = game:getNpcSprites(self.NpcID)
+    self.npcSprites = game.resMan:getNpcSprites(self.NpcID)
 end
 
 function Npc:draw(game, i, j)

@@ -3,8 +3,8 @@ local Monster = class('Monster')
 function Monster:initialize(game, monsterID)
     self.state = 1
     self.monsterID = monsterID
-    self.monster = game.monsters[monsterID]
-    self.monsterSprites = game.monstersSprite[monsterID]
+    self.monster = game.resMan.monsters[monsterID]
+    self.monsterSprites = game.resMan.monstersSprite[monsterID]
 end
 
 function Monster:draw(game, i, j)

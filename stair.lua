@@ -8,10 +8,11 @@ function Stair:initialize(game, stairID)
 end
 
 function Stair:init(game)
+    local sprite_map = game.resMan.sprite_map
     if (self.stairID == 4) then
-        self.sprites=game.s_upstair
+        self.sprites=sprite_map['upstair']
     elseif (self.stairID == 5) then
-        self.sprites=game.s_downstair
+        self.sprites=sprite_map['downstair']
     end
 end
 

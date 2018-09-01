@@ -64,12 +64,12 @@ end
 
 function Hero:drawHero(sprite, game, i, j)
     love.graphics.draw(sprite.img, sprite.quad,
-        (i-1)*game.tiled_width +game.tiled_width/4 *(self.move-1)*self.dir['x'][self.face] + game.ScreenLeft,
-        (j-1)*game.tiled_height+game.tiled_height/4*(self.move-1)*self.dir['y'][self.face])
+        (i-1)*game.resMan.tiled_width +game.resMan.tiled_width/4 *(self.move-1)*self.dir['x'][self.face] + game.resMan.ScreenLeft,
+        (j-1)*game.resMan.tiled_height+game.resMan.tiled_height/4*(self.move-1)*self.dir['y'][self.face])
 end
 
 function Hero:draw(game)
-    local sprite = game.heroSprite[self.move][self.face]
+    local sprite = game.resMan.heroSprite[self.move][self.face]
     if sprite then
         self:drawHero(sprite, game, self.x, self.y)
     end
