@@ -128,7 +128,7 @@ function Floor:canMove(game, hero, nextX, nextY, dir)
     if pointY then
         local point = pointY[nextX]
         if point then
-            return point:canMove(game, hero, dir)
+            return point:canMove(game, hero, nextX, nextY, dir)
         else
             return false
         end
@@ -196,6 +196,14 @@ function Floor:getStairPos(updown)
     end
 
     return x,y
+end
+
+function Floor:openDoor(x, y)
+    local point = self.floorPoints[y][x]
+
+    if point then
+        point:openDoor(x,y)
+    end
 end
 
 return Floor

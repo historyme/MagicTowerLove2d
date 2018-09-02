@@ -2,10 +2,12 @@ local ActiveItem = require'activeitem'
 local Door = class('Door', ActiveItem)
 
 function Door:initialize(game, doorID)
+    self.isDoor = true
     self.doorID = doorID
     self.sprites = {}
     self.state = 1
     self.opened = false
+    self.lock = false
     self:init(game)
 end
 
@@ -28,16 +30,16 @@ function Door:init(game)
         end
     elseif (t == 8) then
         self.sprites=resMan.doorSprite['special']
-        self.opened = false
+        self.lock = true
     elseif (t == 9) then
         self.sprites=resMan.doorSprite['special']
-        self.opened = true
+        self.lock = false
     end
 end
 
 
 function Door:draw(game, i, j)
-    if (not self.opened) or (self.isStair) then 
+    if (not self.opened) then 
         if self.sprites[self.state] then
             game:drawPoint(self.sprites[self.state], i, j)
         end
@@ -54,19 +56,25 @@ function Door:open()
 	return false
 end
 
-function Door:active(game, hero)
+function Door:active(game, hero, nextX, nextY)
     local ret = false
-    
+    local id = self.doorID
     if self.opened then
         return true
     end
     
-    if self.doorID == 1 then
+    if self.lock then
+        return false
+    end
+    
+    if id == 1 then
         ret = hero:tryOpenDoor('yellow')
-    elseif self.doorID == 2 then
+    elseif id == 2 then
         ret = hero:tryOpenDoor('blue')
-    elseif self.doorID == 3 then
+    elseif id == 3 then
         ret = hero:tryOpenDoor('red')
+    elseif ((id == 8) or (id == 9))then
+        ret = hero:tryOpenDoor('special')
     end
     
     if ret then
@@ -75,6 +83,10 @@ function Door:active(game, hero)
     end
     
     return ret
+end
+
+function Door:unlock()
+    self.lock = false
 end
 
 return Door

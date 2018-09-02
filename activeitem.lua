@@ -1,7 +1,7 @@
 local ActiveItem = class('ActiveItem')
 
 function ActiveItem:initialize()
-
+    self.isDoor = false
 end
 
 function ActiveItem:draw(game, i, j)

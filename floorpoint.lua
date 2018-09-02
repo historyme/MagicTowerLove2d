@@ -26,10 +26,10 @@ function FloorPoint:initialize(game, itemID, spriteType, spriteItem, monsterID, 
     end
 end
 
-function FloorPoint:canMove(game, hero, dir)
+function FloorPoint:canMove(game, hero, nextX, nextY, dir)
     if(self.spriteType.innerID == game.resMan.sprite_map['ground'].innerID) then
         if self.activeItem then
-            return self.activeItem:active(game, hero)
+            return self.activeItem:active(game, hero, nextX, nextY)
         end
         
         return true
@@ -99,6 +99,13 @@ function FloorPoint:animation()
     
 end
 
-
+function FloorPoint:openDoor(x,y)
+    local item = self.activeItem
+    if item then
+        if item.isDoor then
+            item:unlock()
+        end
+    end
+end
 
 return FloorPoint

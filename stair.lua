@@ -22,7 +22,7 @@ function Stair:draw(game, i, j)
     end
 end
 
-function Stair:active(game, hero)
+function Stair:active(game, hero, nextX, nextY)
     if self.stairID == 4 then
         hero:upStair(game)
     elseif self.stairID == 5 then

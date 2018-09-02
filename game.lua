@@ -28,8 +28,6 @@ function  Game:init()
     self.flooring = false
     self.time_floor = 0
     
-    self.activeItemID = 0
-    
     self.floormaps = nil
     self.msgBox = nil
     
@@ -115,11 +113,6 @@ function Game:run(dt)
         end
     end
 
-    --前方遇到NPC
-    if self.state == 'GAME_STATE_MEET_NPC' then
-        local npcID = self.activeItemID
-        self.hero:meetNpc(self, npcID)
-    end    
 end
 
 function Game:isFree()
@@ -127,7 +120,7 @@ function Game:isFree()
         return false 
     end
     
-    if (not self.state == 'GAME_STATE_NONE') then
+    if (not (self.state == 'GAME_STATE_NONE')) then
         return false 
     end
     
@@ -183,6 +176,10 @@ end
 
 function Game:canMove(dir)
     return self.hero:canMove(self, dir)
+end
+
+function Game:openDoor(floorID, x, y)
+    self.floormaps:openDoor(floorID, x, y)
 end
 
 function Game:draw()

@@ -59,4 +59,9 @@ function FloorMaps:downStair(game)
     return x,y
 end
 
+function FloorMaps:openDoor(floorID, x, y)
+    local floor = self.Floors[floorID]
+    floor:openDoor(x, y)
+end
+
 return FloorMaps

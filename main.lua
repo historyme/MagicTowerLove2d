@@ -3,6 +3,7 @@ local Game = require'game'
 
 
 function love.load()
+    require("mobdebug").start()
     game = Game:new()    
     game:init()
 end

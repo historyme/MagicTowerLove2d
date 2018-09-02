@@ -4,7 +4,7 @@ local Npc = class('Npc',ActiveItem)
 function Npc:initialize(game, NpcID)
     self.NpcID = NpcID
 	self.state = 1
-	self.visit = 1
+	self.visitTimes = 0
     self.npcSprites = game.resMan:getNpcSprites(self.NpcID)
 end
 
@@ -21,10 +21,17 @@ function Npc:animation()
     end
 end
 
-function Npc:active(game, hero)
-    game.state = 'GAME_STATE_MEET_NPC'
-    game.activeItemID = self.NpcID
+function Npc:active(game, hero, nextX, nextY)
+    hero:meetNpc(game, self, nextX, nextY)
     return false
+end
+
+function Npc:visit()
+    self.visitTimes = self.visitTimes + 1
+end
+
+function Npc:getVisitTimes()
+    return self.visitTimes
 end
 
 return Npc
