@@ -85,7 +85,7 @@ function Monster:goDie()
 end
 
 function Monster:beAttacked(hero_atk)
-    local damage = self:getDef(hero_atk)
+    local damage = hero_atk - self:getDef(hero_atk)
 
     self.monster.hp =  self.monster.hp - damage
 

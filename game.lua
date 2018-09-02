@@ -48,20 +48,19 @@ function  Game:init()
 end
 
 function Game:update(dt)
-    if game:isFree() then
-        if (love.keyboard.isDown('up') and game:canMove('up')) then
-            game.moving = true
-        elseif (love.keyboard.isDown('down') and game:canMove('down')) then
-            game.moving = true
-        elseif (love.keyboard.isDown('right') and game:canMove('right')) then
-            game.moving = true
-        elseif (love.keyboard.isDown('left') and game:canMove('left')) then
-            game.moving = true
+    if self:isFree() then
+        if (love.keyboard.isDown('up') and self:canMove('up')) then
+            self.moving = true
+        elseif (love.keyboard.isDown('down') and self:canMove('down')) then
+            self.moving = true
+        elseif (love.keyboard.isDown('right') and self:canMove('right')) then
+            self.moving = true
+        elseif (love.keyboard.isDown('left') and self:canMove('left')) then
+            self.moving = true
         end
     end
     
     self.hero:update(dt)
-
     self:run(dt)
 end
 
@@ -122,12 +121,12 @@ function Game:run(dt)
     --战斗
     if self.battling then
         if not (self.beatStarted) then
-            local monster_life = self.monster_battling:getHp()
             if self.monster_battling:haveEffect('MagicAtk') then
                 self.hero:specialDamage()
             end
         end
         
+        local monster_life = self.monster_battling:getHp()
         self.beatStarted = true
         self.time_battle = self.time_battle + dt
         

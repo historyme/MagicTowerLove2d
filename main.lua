@@ -1,10 +1,10 @@
 class = require'lib/middleclass'
 local Game = require'game'
 
+local game = Game:new()  
 
 function love.load()
-    require("mobdebug").start()
-    game = Game:new()    
+    require("mobdebug").start()  
     game:init()
 end
 
