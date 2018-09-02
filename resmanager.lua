@@ -114,12 +114,11 @@ function ResManager:loadRes()
     
     while(sprites[i])
     do
-        print('sprites[i].name = ' .. sprites[i].name .. ' sprites[i].res ' .. sprites[i].res)
         name = sprites[i].name
-        res = sprites[i].res
+        res = self.ht_res_map[sprites[i].res]
         geometry = sprites[i].geometry
         
-        self.sprite_map[name] = self:newSprite(self.ht_res_map[res],geometry[1],geometry[2],geometry[3],geometry[4])
+        self.sprite_map[name] = self:newSprite(res, geometry[1],geometry[2],geometry[3],geometry[4])
         i = i + 1
     end
     
@@ -127,32 +126,44 @@ end
 
 function ResManager:initDoorSprite()
     print('initDoorSprite')
+    local res = self.ht_res_map['map']
+    local height = self.tiled_height
+    local width = self.tiled_width
     --ht_door
-    self.s_yellowdoor = {}
-    self.s_bluedoor = {}
-    self.s_reddoor = {}
-    self.s_specialdoor = {}
+    self.doorSprite = {}
+    self.doorSprite['yellow'] = {}
+    self.doorSprite['blue'] = {}
+    self.doorSprite['red'] = {}
+    self.doorSprite['special'] = {}
     for i=1,4 do
-        self.s_yellowdoor[i]=self:newSprite(self.ht_res_map['map'],0,self.tiled_height*(i+1),self.tiled_width,self.tiled_height)
-        self.s_bluedoor[i]=self:newSprite(self.ht_res_map['map'],self.tiled_width,self.tiled_height*(i+1),self.tiled_width,self.tiled_height)
-        self.s_reddoor[i]=self:newSprite(self.ht_res_map['map'],self.tiled_width*2,self.tiled_height*(i+1),self.tiled_width,self.tiled_height)
-        self.s_specialdoor[i]=self:newSprite(self.ht_res_map['map'],self.tiled_width*3,self.tiled_height*(i+1),self.tiled_width,self.tiled_height)
+        self.doorSprite['yellow'][i]       =   self:newSprite(res, 0,      height*(i+1),   width,height)
+        self.doorSprite['blue'][i]         =   self:newSprite(res, width,  height*(i+1),   width,height)
+        self.doorSprite['red'][i]          =   self:newSprite(res, width*2,height*(i+1),   width,height)
+        self.doorSprite['special'][i]      =   self:newSprite(res, width*3,height*(i+1),   width,height)
     end
 end
 
 function ResManager:initHeroSprite()
     print('initHeroSprite')
+    local res = self.ht_res_map['hero']
+    local height = self.tiled_height
+    local width = self.tiled_width
+    
     self.heroSprite = {}
     for i=1,4 do -- 4个动作
         self.heroSprite[i] = {}
         for j=1,4 do -- 4个方向 1下2左3右4上
-            self.heroSprite[i][j] = self:newSprite(self.ht_res_map['hero'],(i-1)*self.tiled_width,(j-1)*(self.tiled_height+1),self.tiled_width,self.tiled_height+1)
+            self.heroSprite[i][j] = self:newSprite(res,(i-1)*width,(j-1)*(height+1),width,height+1)
         end
     end
 end
 
 function ResManager:initMonstersSprite()
     print('initMonstersSprite')
+    local res = self.ht_res_map['monster']
+    local height = self.tiled_height
+    local width = self.tiled_width
+    
     self.monsters = {}
     self.monsters[1]={name='绿色史莱姆',position=0,hp=50,atk=20,def=1,money=1,experience=1,special=0}
     self.monsters[2]={name='红色史莱姆',position=1,hp=70,atk=15,def=2,money=2,experience=2,special=0}
@@ -207,14 +218,19 @@ function ResManager:initMonstersSprite()
             local monster = self.monsters[i]
             if monster then
                 local position = monster.position
-                self.monstersSprite[i][j] = self:newSprite(self.ht_res_map['monster'],self.tiled_width*(j-1),self.tiled_height*position,self.tiled_width,self.tiled_height)
+                self.monstersSprite[i][j] = self:newSprite(res,width*(j-1),height*position,width,height)
             end
         end
     end
 end
 
 function ResManager:initNpcsSprite()
+    print('initNpcsSprite')
     local npcCount = 6
+    local res = self.ht_res_map['npc']
+    local height = self.tiled_height
+    local width = self.tiled_width
+    
     self.npcsSprite = {}
     for i=1, npcCount do
         self.npcsSprite[i] = {}
@@ -223,14 +239,13 @@ function ResManager:initNpcsSprite()
         end
     end
 
-    local npcImg = self.ht_res_map['npc']
     for i=1,4 do
-        self.npcsSprite[1][i]=self:newSprite(npcImg,self.tiled_width*(i-1),self.tiled_height*7,self.tiled_width,self.tiled_height) --公主51 52
-        self.npcsSprite[2][i]=self:newSprite(npcImg,self.tiled_width*(i-1),self.tiled_height*6,self.tiled_width,self.tiled_height) --蓝色商店 47 48
-        self.npcsSprite[3][i]=self:newSprite(npcImg,self.tiled_width*(i-1),0,                  self.tiled_width,self.tiled_height) --老人 40 41 45 49 53 55->
-        self.npcsSprite[4][i]=self:newSprite(npcImg,self.tiled_width*(i-1),self.tiled_height,  self.tiled_width,self.tiled_height); --[32] 42 46 50 54 
-        self.npcsSprite[5][i]=self:newSprite(npcImg,self.tiled_width*(i-1),self.tiled_height*2,self.tiled_width,self.tiled_height); --[64] 43 51
-        self.npcsSprite[6][i]=self:newSprite(npcImg,self.tiled_width*(i-1),self.tiled_height*3,self.tiled_width,self.tiled_height); --[96] 44  
+        self.npcsSprite[1][i]=self:newSprite(res,width*(i-1),height*7,width,height) --公主51 52
+        self.npcsSprite[2][i]=self:newSprite(res,width*(i-1),height*6,width,height) --蓝色商店 47 48
+        self.npcsSprite[3][i]=self:newSprite(res,width*(i-1),0,       width,height) --老人 40 41 45 49 53 55->
+        self.npcsSprite[4][i]=self:newSprite(res,width*(i-1),height,  width,height) --[32] 42 46 50 54 
+        self.npcsSprite[5][i]=self:newSprite(res,width*(i-1),height*2,width,height) --[64] 43 51
+        self.npcsSprite[6][i]=self:newSprite(res,width*(i-1),height*3,width,height) --[96] 44  
     end
 end
 
@@ -261,7 +276,7 @@ function ResManager:initSfx()
     self.he_GetItem=love.audio.newSource("Res/item.ogg", "static")
     self.he_OpenDoor=love.audio.newSource("Res/door.ogg", "static")
     self.he_Attack=love.audio.newSource("Res/attack.ogg", "static")
-    self.he_Music=love.audio.newSource("Res/bgm.mp3", "static")
+    --self.he_Music=love.audio.newSource("Res/bgm.mp3", "static")
 end
     
 

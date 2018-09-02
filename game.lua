@@ -44,6 +44,18 @@ function  Game:init()
 end
 
 function Game:update(dt)
+    if game:isFree() then
+        if (love.keyboard.isDown('up') and game:canMove('up')) then
+            game.moving = true
+        elseif (love.keyboard.isDown('down') and game:canMove('down')) then
+            game.moving = true
+        elseif (love.keyboard.isDown('right') and game:canMove('right')) then
+            game.moving = true
+        elseif (love.keyboard.isDown('left') and game:canMove('left')) then
+            game.moving = true
+        end
+    end
+    
     self.hero:update(dt)
 
     if self.moving then

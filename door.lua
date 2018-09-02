@@ -11,25 +11,26 @@ end
 
 function Door:init(game)
     local t = self.doorID
+    local resMan = game.resMan
 	if(t == 1) then
-        self.sprites=game.resMan.s_yellowdoor
+        self.sprites=resMan.doorSprite['yellow']
     elseif (t == 2) then
-        self.sprites=game.resMan.s_bluedoor
+        self.sprites=resMan.doorSprite['blue']
     elseif (t == 3) then
-        self.sprites=game.resMan.s_reddoor
+        self.sprites=resMan.doorSprite['red']
     elseif (t == 6) then
         for i=1,4 do
-            self.sprites[i]=game.resMan.sprite_map['shopleft']
+            self.sprites[i]=resMan.sprite_map['shopleft']
         end
     elseif (t == 7) then
         for i=1,4 do
-            self.sprites[i]=game.resMan.sprite_map['shopright']
+            self.sprites[i]=resMan.sprite_map['shopright']
         end
     elseif (t == 8) then
-        self.sprites=game.resMan.s_specialdoor
+        self.sprites=resMan.doorSprite['special']
         self.opened = false
     elseif (t == 9) then
-        self.sprites=game.resMan.s_specialdoor
+        self.sprites=resMan.doorSprite['special']
         self.opened = true
     end
 end
