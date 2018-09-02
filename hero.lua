@@ -62,6 +62,94 @@ function Hero:nextY()
     return self.y + self.dir['y'][self.face]
 end
 
+function Hero:canBeat(monster) 
+   local damage = self:getDamage(monster)
+   print('damage ' .. damage)
+   if self.hp > damage then
+       return true
+   else
+       return false
+   end
+end
+
+function Hero:getDamage(monster)
+    local MAX_DAMAGE = 99999999
+    local monster_def = monster:getDef(self.atk)
+    local monster_atk = monster:getAtk()
+    local monster_hp = monster:getHp()
+    if (self.atk <= monster_def) then
+        return MAX_DAMAGE
+    end
+
+    --吸血
+    local suckBlood  = 0
+    if monster:haveEffect('SuckBlood') then
+        suckBlood = self.hp/3
+    end
+    
+    --不是魔攻，抗性大于等于攻击
+    if (not monster:haveEffect('MagicAtk')) and (self.def >= monster_atk) then
+        return suckBlood
+    end
+    
+    --魔攻 无视防御
+    local hero_def = self.def
+    if monster:haveEffect('MagicAtk') then
+        hero_def = 0
+    end
+    
+    --伤害系数
+    local moster_atkRatio = (monster_hp-1) / ( (self.atk-monster_def)*self:getSpeAtkTimes() )
+    return suckBlood + (monster_atk - hero_def) * moster_atkRatio
+end
+
+function Hero:getSpeAtkTimes()
+    if not (self.special == 1) then 
+        return 1
+    else
+        return self:getSpecialLv()
+    end
+end
+
+function Hero:getSpecialLv()
+    local lv = self.lv
+    if (lv<=10) then
+        return 1
+    elseif (lv<=20) then
+        return 2
+    elseif (lv<=45) then
+        return 3
+    elseif (lv<=80) then
+        return 4
+    else
+        return 5
+    end
+end
+
+function Hero:attack(game, monster)
+    game:playBGM('attack')
+    local times = self:getSpeAtkTimes()
+    local i = 1
+    for i=1,times do
+        if monster:beAttacked(self.atk) then
+            self.money = self.money + monster:getMoney()
+            self.experience = self.experience + monster:getExperience()
+            return true
+        end
+    end
+    
+    return false
+end
+
+function Hero:beAttacked(game, monster)
+    local monster_atk = monster:getAtk()
+    if monster:haveEffect('MagicAtk') then
+        self.hp = self.hp - monster_atk
+    elseif self.def < monster_atk then 
+        self.hp = self.hp - monster_atk + self.def
+    end
+end
+
 function Hero:drawHero(sprite, game, i, j)
     love.graphics.draw(sprite.img, sprite.quad,
         (i-1)*game.resMan.tiled_width +game.resMan.tiled_width/4 *(self.move-1)*self.dir['x'][self.face] + game.resMan.ScreenLeft,

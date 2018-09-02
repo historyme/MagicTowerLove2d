@@ -28,6 +28,12 @@ function  Game:init()
     self.flooring = false
     self.time_floor = 0
     
+    self.battling = false
+    self.monster_battling = nil
+    self.beatStarted = false
+    self.time_battle = 0
+    self.isMyturn = true
+    
     self.floormaps = nil
     self.msgBox = nil
     
@@ -112,6 +118,39 @@ function Game:run(dt)
             self.msgBox:showMsg(false)
         end
     end
+    
+    --战斗
+    if self.battling then
+        if not (self.beatStarted) then
+            local monster_life = self.monster_battling:getHp()
+            if self.monster_battling:haveEffect('MagicAtk') then
+                self.hero:specialDamage()
+            end
+        end
+        
+        self.beatStarted = true
+        self.time_battle = self.time_battle + dt
+        
+        if(self.time_battle>=0.05) then
+            print('hero.hp = ' .. self.hero.hp)
+            self.time_battle = self.time_battle - 0.05
+            
+            if self.isMyturn then
+                if self.hero:attack(self, self.monster_battling) then
+                    --胜利
+                    self.battling = false
+                    self.beatStarted = false
+                    self.monster_battling:goDie()
+                    self.monster_battling = nil
+                else
+                    self.isMyturn = false
+                end
+            else
+                self.hero:beAttacked(self, self.monster_battling)
+                self.isMyturn = true
+            end
+        end
+    end
 
 end
 
@@ -125,6 +164,10 @@ function Game:isFree()
     end
     
     if self.opening then
+        return false
+    end
+    
+    if self.battling then
         return false
     end
     

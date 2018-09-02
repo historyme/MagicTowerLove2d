@@ -12,6 +12,7 @@ function FloorPoint:initialize(game, itemID, spriteType, spriteItem, monsterID, 
     self.spriteItemDistroy = false
     self.specialID = specialID
     self.activeItem = nil
+    self.monster = nil
     
     if ((activeItemID > 0 and activeItemID <= 3) or (activeItemID >= 6 and activeItemID <=9) ) then
         self.activeItem = Door:new(game, activeItemID)
@@ -31,11 +32,15 @@ function FloorPoint:canMove(game, hero, nextX, nextY, dir)
         if self.activeItem then
             return self.activeItem:active(game, hero, nextX, nextY)
         end
+
+        if self.monster then
+            return self.monster:active(game, hero, nextX, nextY)
+        end
         
         return true
-    else
-        return false
     end
+    
+    return false
 end
 
 function FloorPoint:drawSpecialPoint(specialID, game, i, j)
