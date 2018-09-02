@@ -58,6 +58,10 @@ function Game:update(dt)
     
     self.hero:update(dt)
 
+    self:run(dt)
+end
+
+function Game:run(dt)
     if self.moving then
         self.time_move = self.time_move + dt;
         if (self.time_move>=0.03) then
@@ -115,7 +119,7 @@ function Game:update(dt)
     if self.state == 'GAME_STATE_MEET_NPC' then
         local npcID = self.activeItemID
         self.hero:meetNpc(self, npcID)
-    end
+    end    
 end
 
 function Game:isFree()
