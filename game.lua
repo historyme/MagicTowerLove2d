@@ -3,6 +3,7 @@ local FloorMaps = require'floormaps'
 local Maps = require'mapdat'
 local MsgBox = require'msgbox'
 local Hero = require'hero'
+local StatusBar = require('statusbar')
 
 local Game = class('Game')
 
@@ -45,6 +46,8 @@ function  Game:init()
 
     self.hero = Hero:new()
     self.hero:init()
+    
+    self.statusBar = StatusBar:new() 
 end
 
 function Game:update(dt)
@@ -231,6 +234,7 @@ end
 function Game:draw()
     self.floormaps:draw(self)
     self.hero:draw(self)
+    self.statusBar:draw(self)
     self.msgBox:draw()
 end
 
