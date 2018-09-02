@@ -6,7 +6,7 @@ function Hero:initialize(game)
     self.dir = {['x'] = {} , ['y'] = {}}
     
     self.dir['x'][1]=0 --下
-	self.dir['x'][2]=-1 -- 左
+    self.dir['x'][2]=-1 -- 左
     self.dir['x'][3]=1 -- 右
     self.dir['x'][4]=0 -- 上
     
@@ -77,10 +77,10 @@ end
 
 function Hero:moveComplete(game, dt)
     self.move = self.move + 1
-	if self.move >= 5 then
+    if self.move >= 5 then
         self.move = 1
         self.x = self.x + self.dir['x'][self.face];
-		self.y = self.y + self.dir['y'][self.face];
+        self.y = self.y + self.dir['y'][self.face];
         
         self:onHeroMoveComplite(game, self.x, self.y)
         
@@ -159,10 +159,10 @@ function Hero:update(dt)
 end
 
 function Hero:meetNpc(game, npc, nextX, nextY)
-	local visitNpcTimes = npc:getVisitTimes()
+    local visitNpcTimes = npc:getVisitTimes()
     local npcID = npc.NpcID
     
-	if npcID == 44 then
+    if npcID == 44 then
         if (visitNpcTimes == 0) then
             local fairy_hint={
                 "我：\n（这是什么鬼地方，阴森森的）\n\n[按回车键继续]",
@@ -189,6 +189,21 @@ function Hero:meetNpc(game, npc, nextX, nextY)
             npc:visit()
         elseif (visitNpcTimes >= 1) then
             game:setMsg("仙子：\n找到十字架了吗？")
+        end
+    elseif npcID == 40 then
+        if (visitNpcTimes == 0) then
+            local npc_hint = {
+                "老人：\n孩子，这座塔很危险，你怎么\n进来了？",
+                "我：\n我女朋友在里面，我要冲进去\n救她！",
+                "老人：\n勇气可嘉！我有本书遗失在了\n三楼，如果你能获得它，或许\n能对你有所帮助。",
+                "我：\n谢谢您！",
+                "老人：\n另外，多和塔里的老人们进行\n对话，会得到很多有用的情报\n的。",
+                "老人：\n还有，一定要注意随时存档！"
+            }
+            game:setMsgBatch(npc_hint)
+            npc:visit()
+        else
+            game:setMsg("老人：\n多和塔里的老人们进行对话，\n会得到很多有用的情报的。\n同时，一定要注意随时存档！")
         end
     end
 
