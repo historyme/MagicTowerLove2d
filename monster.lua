@@ -1,11 +1,16 @@
 local Monster = class('Monster')
 
 function Monster:initialize(game, monsterID)
-    self.state = 1
     self.monsterID = monsterID
     self.monster = game.resMan.monsters[monsterID]
     self.monsterSprites = game.resMan.monstersSprite[monsterID]
+    self:initMonster()
+end
+
+function Monster:initMonster()
     self.die = false
+    self.state = 1
+    self.hp = self.monster.hp
 end
 
 function Monster:draw(game, i, j)
@@ -47,7 +52,7 @@ function Monster:getExperience()
 end
 
 function Monster:getHp()
-    return self.monster.hp
+    return self.hp
 end
 function Monster:haveEffect(effect)
     if effect == 'SuckBlood' then
@@ -87,9 +92,9 @@ end
 function Monster:beAttacked(hero_atk)
     local damage = hero_atk - self:getDef(hero_atk)
 
-    self.monster.hp =  self.monster.hp - damage
+    self.hp = self.hp - damage
 
-    if  self.monster.hp <= 0 then
+    if  self.hp <= 0 then
         return true
     else
         return false

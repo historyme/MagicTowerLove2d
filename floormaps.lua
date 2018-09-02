@@ -4,7 +4,7 @@ local FloorMaps = class('FloorMaps')
 
 function FloorMaps:initialize()
     self.Floors = {}
-    self.curFloor = 2
+    self.curFloor = 1
 end
 
 
