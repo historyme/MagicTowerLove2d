@@ -80,6 +80,7 @@ function Door:active(game, hero, nextX, nextY)
     if ret then
         game.opening = true
         game.openingdoor = self
+        game:playBGM('doorOpen')
     end
     
     return ret

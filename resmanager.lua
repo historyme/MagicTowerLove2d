@@ -6,6 +6,7 @@ function ResManager:initialize()
     self.spriteInnerID = 1
     self.ht_res_map = {}
     self.sprite_map = {}
+    self.sound_map = {}
     self.tiled_height = 32
     self.tiled_width = 32
     self.ScreenLeft = 0
@@ -273,12 +274,16 @@ function ResManager:initFont()
 end
 
 function ResManager:initSfx()
-    self.he_GetItem=love.audio.newSource("Res/item.ogg", "static")
-    self.he_OpenDoor=love.audio.newSource("Res/door.ogg", "static")
-    self.he_Attack=love.audio.newSource("Res/attack.ogg", "static")
+    self.sound_map['getItem']=love.audio.newSource("Res/item.ogg", "static")
+    self.sound_map['doorOpen']=love.audio.newSource("Res/door.ogg", "static")
+    self.sound_map['attack']=love.audio.newSource("Res/attack.ogg", "static")
     --self.he_Music=love.audio.newSource("Res/bgm.mp3", "static")
 end
-    
+
+function ResManager:playBGM(soundID)
+    local sound = self.sound_map[soundID]
+    love.audio.play(sound)
+end
 
 --新建quad,这个是sprite的另一种表示方法,quad只包含sprite图片位置参数
 function ResManager:newSprite(img, x, y, width, height)

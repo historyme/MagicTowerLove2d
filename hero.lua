@@ -95,24 +95,27 @@ function Hero:onHeroMoveComplite(game, x, y)
     --获取当前位置的物品
     local floor = game.floormaps:curFloorMap()
     local itemID = floor:getActiveItemID(x, y)
-
-    print('item = '..itemID)
+    local bGetItem = false
     
     if itemID == 15 then
         self.yellowkey = self.yellowkey + 1
-        print('yellowkey = '.. self.yellowkey)
         game:setMsg("获得黄钥匙")
         floor:distroyItem(x, y)
+        bGetItem = true
     elseif itemID == 16 then
         self.bluekey = self.bluekey + 1
-        print('bluekey = '.. self.bluekey)
         game:setMsg("获得蓝钥匙")
         floor:distroyItem(x, y)
+        bGetItem = true
     elseif itemID == 17 then
         self.redkey = self.redkey + 1
-        print('redkey = '.. self.redkey)
         game:setMsg("获得红钥匙")
         floor:distroyItem(x, y)
+        bGetItem = true
+    end
+    
+    if bGetItem then
+        game:playBGM('getItem')
     end
 end
 

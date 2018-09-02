@@ -182,6 +182,10 @@ function Game:openDoor(floorID, x, y)
     self.floormaps:openDoor(floorID, x, y)
 end
 
+function Game:playBGM(soundID)
+    self.resMan:playBGM(soundID)
+end
+
 function Game:draw()
     self.floormaps:draw(self)
     self.hero:draw(self)
